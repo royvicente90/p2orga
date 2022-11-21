@@ -8,26 +8,16 @@ def regPintura(cota, nombre, precio, status):
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
     p = Path(__file__).with_name('db.txt')
     with p.open('a') as f:
-        f.write('\n' + cota + ', ' + nombre + ', ' +
-                precio + ', ' + status + ', ' + 'False')
+        f.write('\n' + cota + ';' + nombre + ';' +
+                precio + ';' + status + ';' + 'False')
         f.close()
-
-
-def checkStatus(var):
-    if var.isalpha() and (var.lower() == 'en exhibicion' or var.lower() == 'en exhibición' or var.lower() == 'en mantenimiento'):
-        if var.lower() == 'en exhibición' or var.lower() == 'en exhibicion':
-            return 'EN EXHIBICIÓN'
-        else:
-            return 'EN MANTENIMIENTO'
-    else:
-        return 'ERROR'
 
 
 def checkNombre(var):
     if len(var) <= 30:
-        return True
-    else:
         return False
+    else:
+        return True
 
 
 def checkCota(var):
@@ -43,6 +33,32 @@ def checkCota(var):
     if checker == False:
         acum = 'ERROR'
     return acum
+
+
+def nuevaPintura():
+    posible = ['1', '2']
+    print("A continuación te pediremos los datos de la pintura a registrar:\n")
+    cota = input(
+        "Ingrese el codigo de la cota (Formato LLLLNNNN L=Letra N=Número): ")
+    nombre = input("Ingrese el nombre de la obra (Max 30 caracteres): ")
+    precio = input("Ingrese el precio de la obra: ")
+    selectStatus = input(
+        "Seleccione un status:\n1. EN EXHIBICIÓN.\n2. EN MANTENIMIENTO.\n")
+    cls()
+    cota = checkCota(cota)
+    if (cota == 'ERROR') or (checkNombre(nombre)) or (int(precio) <= 0) or (selectStatus not in posible):
+        print("Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
+        input("Presione enter para continuar.")
+        nuevaPintura()
+    if selectStatus == '1':
+        status = 'EN EXHIBICIÓN'
+    elif selectStatus == '2':
+        status = 'EN MANTENIMIENTO'
+    else:
+        print("Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
+        input("Presione enter para continuar.")
+        nuevaPintura()
+    regPintura(cota, nombre, precio, status)
 
 
 def cls():
@@ -69,5 +85,4 @@ def menu():
         menu()
 
 
-# menu()
-regPintura('AACC0011', 'El Alacran', '300', 'EN EXHIBICIÓN')
+menu()
