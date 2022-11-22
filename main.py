@@ -19,6 +19,7 @@ def validacion_cota():
   digitos = sum(c.isdigit() for c in cota)
   letras = sum(c.isalpha() for c in cota)
   if (digitos == 4) and (letras == 4): 
+    cota = cota.upper()
     return cota
   else: 
     print("Asegúrese de que la cota contenga 4 letras y 4 dígitos.")
@@ -32,7 +33,14 @@ def validacion_precio():
   except (ValueError, AssertionError):
     print("Introduzca un número valido.")
     validacion_precio()
-  
+    
+ def validacion_status():
+  status = input("Introduzca el status de la pintura: \n").upper()
+  if status == "EN EXHIBICION" or status == "EN MANTENIMIENTO":
+    return status
+  else:
+    print("Asegúrese de introducir un status válido. Hint: EN EXHIBICION/EN MANTENIMIENTO")
+    validacion_status() 
 
 def regPintura():
   name = validacion_nombre()
