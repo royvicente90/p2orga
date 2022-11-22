@@ -1,4 +1,4 @@
-class Pinturas:
+class Pintura:
   
   def __init__(self, cota, nombre, precio, status):
     self.cota = cota
