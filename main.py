@@ -25,7 +25,13 @@ def validacion_cota():
     validacion_cota()
     
 def validacion_precio():
-  print("Llegue")
+  try:
+    precio = float(input("Introduzca el precio de la pintura: \n"))
+    assert precio > 0
+    
+  except (ValueError, AssertionError):
+    print("Introduzca un número valido.")
+    validacion_precio()
   
 
 def regPintura():
