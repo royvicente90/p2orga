@@ -35,10 +35,13 @@ def validacion_precio():
   
 
 def regPintura():
-  validacion_nombre()
-  validacion_cota()
-  validacion_precio()
-
+  name = validacion_nombre()
+  cotaa = validacion_cota()
+  price = validacion_precio()
+  estado = validacion_status()
+  creacion = Pintura(cotaa, name, price, estado)
+  paintings.append(creacion)
+    
 def menu():
     print("===========================================================\nBienvenido al Sistema Manejador de Pinturas del Louvre\nCreado por Gabriella Suarez, Gabriel Useche y Roy Rodriguez\n===========================================================")
     selector = input("\nSeleccione una de las siguientes opciones:\n1. Registrar una nueva pintura.\n2. Buscar pintura por cota.\n3. Buscar pintura por nombre.\n4. Limpiar la papelera de reciclaje de pinturas.\n5. Para salir del programa.\n")
