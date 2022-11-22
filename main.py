@@ -1,5 +1,5 @@
 import os
-from pinturas import Pinturas
+from pinturas import Pintura
 
 paintings = []
 
