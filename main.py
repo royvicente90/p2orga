@@ -6,17 +6,32 @@ paintings = []
 def cls():
     os.system('cls' if os.name == 'nt' else "printf '\033c'")
     
-def validacion_nombre(nombre):
+def validacion_nombre():
+  nombre = input("Introduzca el nombre de su pintura: \n")
   if len(nombre) <= 30:
      return nombre
   else: 
     print("Asegúrese de que la cantidad de caracteres no exceda de 30")
-    regPintura()
+    validacion_nombre()
+
+def validacion_cota():
+  cota = input("Introduzca la Cota: \n")
+  digitos = sum(c.isdigit() for c in cota)
+  letras = sum(c.isalpha() for c in cota)
+  if (digitos == 4) and (letras == 4): 
+    return cota
+  else: 
+    print("Asegúrese de que la cota contenga 4 letras y 4 dígitos.")
+    validacion_cota()
+    
+def validacion_precio():
+  print("Llegue")
   
 
 def regPintura():
-  nombre = input("Introduzca el nombre de su pintura: \n")
-  validacion_nombre(nombre)
+  validacion_nombre()
+  validacion_cota()
+  validacion_precio()
 
 def menu():
     print("===========================================================\nBienvenido al Sistema Manejador de Pinturas del Louvre\nCreado por Gabriella Suarez, Gabriel Useche y Roy Rodriguez\n===========================================================")
