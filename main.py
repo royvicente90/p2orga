@@ -1,9 +1,22 @@
 import os
+from pinturas import Pinturas
 
+paintings = []
 
 def cls():
     os.system('cls' if os.name == 'nt' else "printf '\033c'")
+    
+def validacion_nombre(nombre):
+  if len(nombre) <= 30:
+     return nombre
+  else: 
+    print("Asegúrese de que la cantidad de caracteres no exceda de 30")
+    regPintura()
+  
 
+def regPintura():
+  nombre = input("Introduzca el nombre de su pintura: \n")
+  validacion_nombre(nombre)
 
 def menu():
     print("===========================================================\nBienvenido al Sistema Manejador de Pinturas del Louvre\nCreado por Gabriella Suarez, Gabriel Useche y Roy Rodriguez\n===========================================================")
