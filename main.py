@@ -8,8 +8,8 @@ def regPintura(cota, nombre, precio, status):
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
     p = Path(__file__).with_name('db.txt')
     with p.open('a') as f:
-        f.write('\n' + cota + ';' + nombre + ';' +
-                precio + ';' + status + ';' + 'False')
+        f.write(cota + ';' + nombre + ';' +
+                precio + ';' + status + ';' + 'False' + '\n')
         f.close()
 
 
@@ -24,9 +24,10 @@ def checkCota(var):
     checker = True
     acum = ''
     for x in range(len(var)):
-        if var[x].isalpha() and x >= 3:
+        # print(checker)
+        if var[x].isalpha() and x <= 3:
             acum += var[x].upper()
-        elif var[x].isnum() and (x > 3 and x <= 7):
+        elif var[x].isnumeric() and (x > 3 and x <= 7):
             acum += var[x]
         else:
             checker = False
@@ -36,30 +37,39 @@ def checkCota(var):
 
 
 def nuevaPintura():
-    posible = ['1', '2']
-    print("A continuación te pediremos los datos de la pintura a registrar:\n")
-    cota = input(
-        "Ingrese el codigo de la cota (Formato LLLLNNNN L=Letra N=Número): ")
-    nombre = input("Ingrese el nombre de la obra (Max 30 caracteres): ")
-    precio = input("Ingrese el precio de la obra: ")
-    selectStatus = input(
-        "Seleccione un status:\n1. EN EXHIBICIÓN.\n2. EN MANTENIMIENTO.\n")
-    cls()
-    cota = checkCota(cota)
-    if (cota == 'ERROR') or (checkNombre(nombre)) or (int(precio) <= 0) or (selectStatus not in posible):
+    try:
+        posible = ['1', '2']
+        print("A continuación te pediremos los datos de la pintura a registrar:\n")
+        cota = input(
+            "Ingrese el codigo de la cota (Formato LLLLNNNN L=Letra N=Número): ")
+        nombre = input("Ingrese el nombre de la obra (Max 30 caracteres): ")
+        precio = input("Ingrese el precio de la obra: ")
+        selectStatus = input(
+            "Seleccione un status:\n1. EN EXHIBICIÓN.\n2. EN MANTENIMIENTO.\n")
+        cls()
+        cota = checkCota(cota)
+        if (cota == 'ERROR') or (checkNombre(nombre)) or (int(precio) <= 0) or (selectStatus not in posible):
+            print("Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
+            input("Presione enter para continuar.")
+            nuevaPintura()
+        if selectStatus == '1':
+            status = 'EN EXHIBICIÓN'
+        elif selectStatus == '2':
+            status = 'EN MANTENIMIENTO'
+        else:
+            print("Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
+            input("Presione enter para continuar.")
+            nuevaPintura()
+    except ValueError:
         print("Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
         input("Presione enter para continuar.")
         nuevaPintura()
-    if selectStatus == '1':
-        status = 'EN EXHIBICIÓN'
-    elif selectStatus == '2':
-        status = 'EN MANTENIMIENTO'
-    else:
-        print("Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
-        input("Presione enter para continuar.")
-        nuevaPintura()
-    regPintura(cota, nombre, precio, status)
 
+    regPintura(cota, nombre, precio, status)
+    cls()
+    input("La pintura ha sido agregada exitosamente.\nPresione enter para volver al menu...")
+    menu()
+    
 
 def cls():
     os.system('cls' if os.name == 'nt' else "printf '\033c'")
