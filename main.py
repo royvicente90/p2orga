@@ -1,6 +1,30 @@
 import os
 from pathlib import Path
 
+# Funcion cambiar estatus para mantenimiento o en exhibicion
+
+
+def changeState(line, index, mode):
+    if mode == 0:
+        __location__ = os.path.realpath(
+            os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        p = Path(__file__).with_name('db.txt')
+        with open(p, 'r') as f:
+            g = f.readlines()
+            line = line.replace('EN EXHIBICIÓN', 'EN MANTENIMIENTO')
+            g[index] = line
+        with open(p, 'w') as h:
+            h.writelines(g)
+    elif mode == 1:
+        __location__ = os.path.realpath(
+            os.path.join(os.getcwd(), os.path.dirname(__file__)))
+        p = Path(__file__).with_name('db.txt')
+        with open(p, 'r') as f:
+            g = f.readlines()
+            line = line.replace('EN MANTENIMIENTO', 'EN EXHIBICIÓN')
+            g[index] = line
+        with open(p, 'w') as h:
+            h.writelines(g)
 
 
 # Funcion de Restauracion Logica
@@ -16,6 +40,8 @@ def restLogic(line, index):
         h.writelines(g)
 
 # Funcion de Borrado Logico
+
+
 def borradoLogic(line, index):
     __location__ = os.path.realpath(
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -51,8 +77,12 @@ def bDB(index):
                 submenu = input(
                     "\n¿Que desea hacer?\n1. Volver al menu principal.\n2. Restaurar la pintura.\n")
             else:
-                submenu = input(
-                    "\n¿Que desea hacer?\n1. Volver al menu principal.\n9. Borrar la pintura.\n")
+                if x[3] == 'EN MANTENIMIENTO':
+                    submenu = input(
+                        "\n¿Que desea hacer?\n1. Volver al menu principal.\n3. Cambiar estatus a EN EXHIBICIÓN\n9. Borrar la pintura.\n")
+                elif x[3] == 'EN EXHIBICIÓN':
+                    submenu = input(
+                        "\n¿Que desea hacer?\n1. Volver al menu principal.\n3. Cambiar estatus a EN MANTENIMIENTO\n9. Borrar la pintura.\n")
             if submenu == '1':
                 cls()
                 menu()
@@ -62,7 +92,20 @@ def bDB(index):
                 print("Pintura restaurada exitosamente")
                 input("Presione enter para volver al menu principal...")
                 menu()
-            elif submenu == '9':
+            elif submenu == '3':
+                if x[3] == 'EN EXHIBICIÓN':
+                    changeState(g[index], index, 0)
+                    cls()
+                    print("Cambio de estatus exitoso")
+                    input("Presione enter para volver al menu principal...")
+                    menu()
+                elif x[3] == 'EN MANTENIMIENTO':
+                    changeState(g[index], index, 1)
+                    cls()
+                    print("Cambio de estatus exitoso")
+                    input("Presione enter para volver al menu principal...")
+                    menu()
+            elif submenu == '9' and (x[4].replace('\n', '') == 'False'):
                 print("¿Esta seguro que desea borrar la pintura?")
                 x2 = input(
                     "Introduzca:\n1. Si esta de acuerdo en borrar la pintura.\n 2. Si desea volver al menu principal")
