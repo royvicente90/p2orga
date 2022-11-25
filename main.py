@@ -48,9 +48,12 @@ def bBasura():
         for a in ln:
             h.write(a)
     f.close()
-
+    input("Base de datos compactada exitosamente.\nPresione enter para volver al menu principal...")
+    menu()
 
 # Funcion cambiar estatus para mantenimiento o en exhibicion
+
+
 def changeState(line, index, mode):
     if mode == 0:
         __location__ = os.path.realpath(
@@ -152,9 +155,10 @@ def bDB(index):
                     input("Presione enter para volver al menu principal...")
                     menu()
             elif submenu == '9' and (x[4].replace('\n', '') == 'False'):
+                cls()
                 print("¿Esta seguro que desea borrar la pintura?")
                 x2 = input(
-                    "Introduzca:\n1. Si esta de acuerdo en borrar la pintura.\n 2. Si desea volver al menu principal")
+                    "Introduzca:\n1. Si esta de acuerdo en borrar la pintura.\n2. Si desea volver al menu principal.\n")
                 if x2 == '2':
                     cls()
                     menu()
