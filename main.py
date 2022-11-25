@@ -3,6 +3,8 @@ from pathlib import Path
 
 # Funcion Wipe todos los index
 
+paintings = []
+
 
 def indexWipe():
     __location__ = os.path.realpath(
@@ -414,7 +416,49 @@ def cls():
     os.system('cls' if os.name == 'nt' else "printf '\033c'")
 
 
+def validacion_nombre():
+    nombre = input("Introduzca el nombre de su pintura: \n")
+    if len(nombre) <= 30:
+        return nombre
+    else:
+        print("Asegúrese de que la cantidad de caracteres no exceda de 30")
+        validacion_nombre()
+
+
+def validacion_cota():
+    cota = input("Introduzca la Cota: \n")
+    digitos = sum(c.isdigit() for c in cota)
+    letras = sum(c.isalpha() for c in cota)
+    if (digitos == 4) and (letras == 4):
+        cota = cota.upper()
+        return cota
+    else:
+        print("Asegúrese de que la cota contenga 4 letras y 4 dígitos.")
+        validacion_cota()
+
+
+def validacion_precio():
+    try:
+        precio = float(input("Introduzca el precio de la pintura: \n"))
+        assert precio > 0
+
+    except (ValueError, AssertionError):
+        print("Introduzca un número valido.")
+        validacion_precio()
+
+
+def validacion_status():
+    status = input("Introduzca el status de la pintura: \n").upper()
+    if status == "EN EXHIBICION" or status == "EN MANTENIMIENTO":
+        return status
+    else:
+        print(
+            "Asegúrese de introducir un status válido. Hint: EN EXHIBICION/EN MANTENIMIENTO")
+        validacion_status()
+
 # Menu
+
+
 def menu():
     cls()
     print("===========================================================\nBienvenido al Sistema Manejador de Pinturas del Louvre\nCreado por Gabriella Suarez, Gabriel Useche y Roy Rodriguez\n===========================================================")
