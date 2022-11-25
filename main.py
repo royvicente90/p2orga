@@ -1,9 +1,54 @@
 import os
 from pathlib import Path
 
+# Funcion Wipe todos los index
+
+
+def indexWipe():
+    __location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    p = Path(__file__).with_name('nameIndex.txt')
+    b = ''
+    with p.open('w') as f:
+        f.seek(0)
+        f.writelines(b)
+
+    __location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    p = Path(__file__).with_name('cotaIndex.txt')
+    with p.open('w') as f:
+        f.seek(0)
+        f.writelines(b)
+
+# Funcion Compactador
+
+
+def bBasura():
+    __location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__)))
+    p = Path(__file__).with_name('db.txt')
+    with open(p) as f:
+        g = f.readlines()
+        l = []
+        ln = []
+        for x in g:
+            if x.split(';')[4] == 'False\n':
+                l.append(x.split(';'))
+        indexWipe()
+        contador = 0
+        for x in l:
+            ln.append(x[0] + ';' + x[1] + ';' + x[2] + ';' + x[3] + ';' + x[4])
+            regIndexes(x[1], x[0], str(contador))
+            contador += 1
+
+    with open(p, 'w') as h:
+        h.seek(0)
+        for a in ln:
+            h.write(a)
+    f.close()
+
+
 # Funcion cambiar estatus para mantenimiento o en exhibicion
-
-
 def changeState(line, index, mode):
     if mode == 0:
         __location__ = os.path.realpath(
@@ -39,9 +84,8 @@ def restLogic(line, index):
     with open(p, 'w') as h:
         h.writelines(g)
 
+
 # Funcion de Borrado Logico
-
-
 def borradoLogic(line, index):
     __location__ = os.path.realpath(
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -128,9 +172,8 @@ def bDB(index):
                     "Ha introducido una opción inválida, presione enter para volver al menu principal...")
                 menu()
 
+
 # Funcion de busqueda en archivo nameIndex
-
-
 def bNombre():
     imp = input("Introduzca el nombre que desea buscar: ").upper()
     __location__ = os.path.realpath(
@@ -157,9 +200,8 @@ def bNombre():
                 izq = medio + 1
         return str(-1)
 
+
 # Funcion de busqueda en archivo cotaIndex
-
-
 def bCota():
     imp = input("Introduzca la cota que desea buscar: ").upper()
     __location__ = os.path.realpath(
@@ -186,9 +228,8 @@ def bCota():
                 izq = medio + 1
         return str(-1)
 
+
 # Funcion de revisar si estan repetidos en archivo nameIndex y cotaIndex
-
-
 def checkRegisters(name, cota):
 
     __location__ = os.path.realpath(
@@ -226,15 +267,14 @@ def checkRegisters(name, cota):
 
     f.close()
 
+
 # Funcion de registrar en archivo nameIndex y cotaIndex
-
-
-def regIndexes(name, cota):
+def regIndexes(name, cota, indice):
     __location__ = os.path.realpath(
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
     p = Path(__file__).with_name('nameIndex.txt')
     with p.open('a') as k:
-        k.write(name + ';' + indexDB() + '\n')
+        k.write(name + ';' + indice + '\n')
     k.close()
     organizrName()
 
@@ -242,13 +282,12 @@ def regIndexes(name, cota):
         os.path.join(os.getcwd(), os.path.dirname(__file__)))
     p = Path(__file__).with_name('cotaIndex.txt')
     with p.open('a') as k:
-        k.write(cota + ';' + indexDB() + '\n')
+        k.write(cota + ';' + indice + '\n')
     k.close()
     organizrCota()
 
+
 # Funcion reorganizar archivo cotaIndex
-
-
 def organizrCota():
 
     __location__ = os.path.realpath(
@@ -275,9 +314,8 @@ def organizrName():
             f.write(h)
         f.close()
 
+
 # Archivo que devuelve el index donde se agregará la pintura
-
-
 def indexDB():
     y = 0
     __location__ = os.path.realpath(
@@ -301,9 +339,8 @@ def regPintura(cota, nombre, precio, status):
                 precio + ';' + status + ';' + 'False' + '\n')
         f.close()
 
+
 # Validador de Nombre
-
-
 def checkNombre(var):
     if (len(var) <= 30) and (';' not in var):
         return False
@@ -312,7 +349,6 @@ def checkNombre(var):
 
 
 # Validador de Cota
-
 def checkCota(var):
     checker = True
     acum = ''
@@ -328,9 +364,8 @@ def checkCota(var):
         acum = 'ERROR'
     return acum
 
+
 # Funcion input y registro de Pintura
-
-
 def nuevaPintura():
     try:
         posible = ['1', '2']
@@ -367,21 +402,19 @@ def nuevaPintura():
         nuevaPintura()
 
     checkRegisters(nombre, cota)
-    regIndexes(nombre, cota)
+    regIndexes(nombre, cota, indexDB())
     regPintura(cota, nombre, precio, status)
     cls()
     input("La pintura ha sido agregada exitosamente.\nPresione enter para volver al menu...")
     menu()
 
+
 # Funcion limpiar terminal
-
-
 def cls():
     os.system('cls' if os.name == 'nt' else "printf '\033c'")
 
+
 # Menu
-
-
 def menu():
     cls()
     print("===========================================================\nBienvenido al Sistema Manejador de Pinturas del Louvre\nCreado por Gabriella Suarez, Gabriel Useche y Roy Rodriguez\n===========================================================")
