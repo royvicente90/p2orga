@@ -370,49 +370,64 @@ def checkCota(var):
         acum = 'ERROR'
     return acum
 
+# Funcion de validacion de nombre
+def validacion_nombre():
+  nombre = input("Introduzca el nombre de su pintura: \n")
+  if len(nombre) <= 30:
+    return nombre
+  else:
+    print("Asegúrese de que la cantidad de caracteres no exceda de 30")
+    validacion_nombre()
+
+
+# Funcion de validacion de cota
+def validacion_cota():
+  cota = input("Introduzca la Cota: \n")
+  digitos = sum(c.isdigit() for c in cota)
+  letras = sum(c.isalpha() for c in cota)
+  if (digitos == 4) and (letras == 4):
+    cota = cota.upper()
+    return cota
+  else:
+    print("Asegúrese de que la cota contenga 4 letras y 4 dígitos.")
+    validacion_cota()
+    
+# Funcion de validacion de precio
+def validacion_precio():
+  try:
+    precio = float(input("Introduzca el precio de la pintura: \n"))
+    assert precio > 0
+    return precio
+
+  except (ValueError, AssertionError):
+    print("Introduzca un número valido.")
+    validacion_precio()
+
 
 # Funcion input y registro de Pintura
 def nuevaPintura():
-    try:
-        posible = ['1', '2']
-        print("A continuación te pediremos los datos de la pintura a registrar:\n")
-        cota = input(
-            "Ingrese el codigo de la cota (Formato LLLLNNNN L=Letra N=Número): ")
-        nombre = input(
-            "Ingrese el nombre de la obra (Max 30 caracteres, no puede utilizar el simbolo ;): ")
-        precio = input("Ingrese el precio de la obra: ")
-        selectStatus = input(
+    print("A continuación te pediremos los datos de la pintura a registrar:\n")
+  cota = validacion_cota()
+  nombre = validacion_nombre()
+  precio = str(validacion_precio())
+  selectStatus = input(
             "Seleccione un status:\n1. EN EXHIBICIÓN.\n2. EN MANTENIMIENTO.\n")
-        cls()
-        cota = checkCota(cota)
-        if (cota == 'ERROR') or (checkNombre(nombre)) or (int(precio) <= 0) or (selectStatus not in posible):
-            print(
-                "Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
-            input("Presione enter para continuar.")
-            cls()
-            nuevaPintura()
-        if selectStatus == '1':
-            status = 'EN EXHIBICIÓN'
-        elif selectStatus == '2':
-            status = 'EN MANTENIMIENTO'
-        else:
-            print(
-                "Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
-            input("Presione enter para continuar.")
-            cls()
-            nuevaPintura()
-    except ValueError:
-        print("Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
-        input("Presione enter para continuar.")
-        cls()
-        nuevaPintura()
-
-    checkRegisters(nombre, cota)
-    regIndexes(nombre, cota, indexDB())
-    regPintura(cota, nombre, precio, status)
+  if selectStatus == '1':
+    status = 'EN EXHIBICIÓN'
+  elif selectStatus == '2':
+      status = 'EN MANTENIMIENTO'
+  else:
+    print(
+        "Ha cometido un error escribiendo algún dato, reiniciando el programa de adición...")
+    input("Presione enter para continuar.")
     cls()
-    input("La pintura ha sido agregada exitosamente.\nPresione enter para volver al menu...")
-    menu()
+    nuevaPintura()
+  checkRegisters(nombre, cota)
+  regIndexes(nombre, cota, indexDB())
+  regPintura(cota, nombre, precio, status)
+  cls()
+  input("La pintura ha sido agregada exitosamente.\nPresione enter para volver al menu...")
+  menu()
 
 
 # Funcion limpiar terminal
